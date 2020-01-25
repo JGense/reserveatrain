@@ -1,15 +1,34 @@
+import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 
-export default class UserPanel extends React.Component {
+const useStyles = makeStyles(theme => ({
+    root: {
+        flexGrow: 1,
+    },
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    },
+}));
 
-    constructor(props) {
-        super(props);
-    }
+export default function UserPanel(params) {
+    const classes = useStyles();
 
-    render() {
+    if (params.isLog) {
         return (
-            <h2>UserPanel</h2>
-        );
+            <Grid container justify={"center"}>
+                <Grid item xs={6}>
+                    <Paper className={classes.paper}>ACCOUNT</Paper>
+                </Grid>
+            </Grid>
+        )
+    } else {
+        return (
+            <h1>I'm not logged</h1>
+        )
     }
 }
 
