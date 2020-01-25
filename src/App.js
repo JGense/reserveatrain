@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 
 import Booking from './Booking/Booking';
 import Login from "./Login/Login";

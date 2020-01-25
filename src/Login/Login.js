@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import React, {useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -12,6 +13,10 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
+
+import axios from 'axios';
 
 function Copyright() {
     return (
@@ -59,13 +64,38 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignInSide() {
     const classes = useStyles();
-    const [email, setEmail] = useState("email");
-    const [password, setPassword] = useState("password");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [openSnack, setOpenSnack] = React.useState(false);
 
-    const handleSubmit = (evt) => {
+    const handleSubmit = async (evt) => {
         evt.preventDefault();
-        alert(`Username : ${email} ; Password : ${password}`)
+        try {
+            let response = await axios.post(
+                "https://reqres.in/api/login",
+                {email: "peter@klaven"},
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+        } catch (e) {
+            console.dir(e);
+            setOpenSnack(true);
+        }
+
+        /*console.log(response.status);
+        if (response.data){
+            console.log("logged");
+        } else {
+            setOpenSnack(true);
+        }*/
     }
+
+    const handleCloseSnack = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenSnack(false);
+    };
 
     return (
         <Grid container component="main" className={classes.root}>
@@ -132,6 +162,15 @@ export default function SignInSide() {
                             <Copyright />
                         </Box>
                     </form>
+                    <Snackbar
+                        open={openSnack}
+                        autoHideDuration={6000}
+                        onClose={handleCloseSnack}
+                        anchorOrigin={{vertical: "bottom", horizontal: "right"}}>
+                        <Alert onClose={handleCloseSnack} severity="error">
+                            An error occurred during login
+                        </Alert>
+                    </Snackbar>
                 </div>
             </Grid>
         </Grid>
