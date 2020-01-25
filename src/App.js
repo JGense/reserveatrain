@@ -24,7 +24,7 @@ export default function App() {
                     </Toolbar>
                 </AppBar>
                 <Switch>
-                    <Route exact path={"/"}><Login setIsLog={setIsLog}/></Route>
+                    <Route exact path={"/"}><Login setIsLog={setIsLog} isLog={isLog}/></Route>
                     <Route exact path={"/booking"}><Booking isLog={isLog}/></Route>
                     <Route exact path={"/account"}><UserPanel isLog={isLog}/></Route>
                 </Switch>

@@ -68,7 +68,6 @@ export default function Login(params) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [openSnack, setOpenSnack] = useState(false);
-    const [logged, setLogged] = useState(false);
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
@@ -88,7 +87,6 @@ export default function Login(params) {
         }
 
         if (isLog) {
-            setLogged(true);
             params.setIsLog(true);
         }
     }
@@ -101,7 +99,7 @@ export default function Login(params) {
         setOpenSnack(false);
     };
 
-    if (!logged) {
+    if (!params.isLog) {
         return (
             <Grid container component="main" className={classes.root}>
                 <CssBaseline />
