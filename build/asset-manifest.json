@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/reserveatrain/build/static/css/main.d282177c.chunk.css",
+    "main.js": "/reserveatrain/build/static/js/main.57b903ea.chunk.js",
+    "main.js.map": "/reserveatrain/build/static/js/main.57b903ea.chunk.js.map",
+    "runtime-main.js": "/reserveatrain/build/static/js/runtime-main.ced010a2.js",
+    "runtime-main.js.map": "/reserveatrain/build/static/js/runtime-main.ced010a2.js.map",
+    "static/js/2.33e226a5.chunk.js": "/reserveatrain/build/static/js/2.33e226a5.chunk.js",
+    "static/js/2.33e226a5.chunk.js.map": "/reserveatrain/build/static/js/2.33e226a5.chunk.js.map",
+    "index.html": "/reserveatrain/build/index.html",
+    "precache-manifest.2aa30196d4a594dc8372ac1762ad410e.js": "/reserveatrain/build/precache-manifest.2aa30196d4a594dc8372ac1762ad410e.js",
+    "service-worker.js": "/reserveatrain/build/service-worker.js",
+    "static/css/main.d282177c.chunk.css.map": "/reserveatrain/build/static/css/main.d282177c.chunk.css.map",
+    "static/js/2.33e226a5.chunk.js.LICENSE": "/reserveatrain/build/static/js/2.33e226a5.chunk.js.LICENSE"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ced010a2.js",
+    "static/js/2.33e226a5.chunk.js",
+    "static/css/main.d282177c.chunk.css",
+    "static/js/main.57b903ea.chunk.js"
+  ]
+}
