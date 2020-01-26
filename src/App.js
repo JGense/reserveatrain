@@ -18,7 +18,7 @@ export default function App() {
             <Router>
                 <AppBar position={"static"}>
                     <Toolbar>
-                        <Button><Link className={"menu-button"} to={"/"}>Accueil</Link></Button>
+                        <Button><Link className={"menu-button"} to={"/"}>Home</Link></Button>
                         <Button><Link className={"menu-button"} to={"/booking"}>Booking</Link></Button>
                         <Button><Link className={"menu-button"} to={"/account"}>Account</Link></Button>
                     </Toolbar>

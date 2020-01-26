@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import NeedLogin from "../Utils/NeedLogin";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -23,19 +22,8 @@ export default function Booking(params) {
         )
     } else {
         return (
-            <h1>I'm not logged</h1>
+            <NeedLogin/>
         )
     }
-    /*return (
-        <Grid container alignItems={"stretch"} spacing={3}>
-            <Grid item xs={6}>
-                <Paper className={classes.paper}>FORMULAIRE</Paper>
-            </Grid>
-            <Grid item xs={6}>
-                <Paper className={classes.paper}>PREVIEW</Paper>
-            </Grid>
-        </Grid>
-    );*/
-
 }
 
