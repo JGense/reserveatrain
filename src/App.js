@@ -12,7 +12,7 @@ import UserPanel from "./UserPanel/UserPanel";
 import './App.css'
 
 export default function App() {
-    const [isLog, setIsLog] = useState(false);
+    const [isLog, setIsLog] = useState(true);
     return (
         <div className={"App"}>
             <Router>
