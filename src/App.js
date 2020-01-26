@@ -12,19 +12,19 @@ import UserPanel from "./UserPanel/UserPanel";
 import './App.css'
 
 export default function App() {
-    const [isLog, setIsLog] = useState(false);
+    const [isLog, setIsLog] = useState(true);
     return (
         <div className={"App"}>
             <Router>
                 <AppBar position={"static"}>
                     <Toolbar>
-                        <Button><Link className={"menu-button"} to={"/"}>Accueil</Link></Button>
+                        <Button><Link className={"menu-button"} to={"/"}>Home</Link></Button>
                         <Button><Link className={"menu-button"} to={"/booking"}>Booking</Link></Button>
                         <Button><Link className={"menu-button"} to={"/account"}>Account</Link></Button>
                     </Toolbar>
                 </AppBar>
                 <Switch>
-                    <Route exact path={"/"}><Login setIsLog={setIsLog}/></Route>
+                    <Route exact path={"/"}><Login setIsLog={setIsLog} isLog={isLog}/></Route>
                     <Route exact path={"/booking"}><Booking isLog={isLog}/></Route>
                     <Route exact path={"/account"}><UserPanel isLog={isLog}/></Route>
                 </Switch>
