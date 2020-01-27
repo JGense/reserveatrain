@@ -12,7 +12,9 @@ import UserPanel from "./UserPanel/UserPanel";
 import './App.css'
 
 export default function App() {
+    localStorage.setItem('bookedJourney','[]');
     const [isLog, setIsLog] = useState(true);
+
     return (
         <div className={"App"}>
             <Router>

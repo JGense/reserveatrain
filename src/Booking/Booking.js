@@ -43,8 +43,8 @@ export default function Booking(params) {
         arrivalStation: ''
     });
 
-    const [selectedDateDeparture, setSelectedDateDeparture] = React.useState(Date.now);
-    const [selectedDateArrival, setSelectedDateArrival] = React.useState(Date.now());
+    const [selectedDateDeparture, setSelectedDateDeparture] = React.useState();
+    const [selectedDateArrival, setSelectedDateArrival] = React.useState();
 
     const handleDateDepartureChange = date => {
         setSelectedDateDeparture(date);
@@ -57,6 +57,13 @@ export default function Booking(params) {
     const handleChangeInput = prop => event => {
         setValues({ ...values, [prop]: event.target.value });
     };
+
+    const handleSubmit= event => {
+        let formatedDeparture = selectedDateDeparture.getDate()+'/'+selectedDateDeparture.getMonth()+1+'/'+selectedDateDeparture.getFullYear();
+        let formatedArrival = selectedDateArrival.getDate()+'/'+selectedDateArrival.getMonth()+1+'/'+selectedDateArrival.getFullYear();
+        alert(values.arrivalStation+' '+values.departureStation+' '+formatedDeparture+' '+formatedArrival);
+        event.preventDefault();
+    }
 
     if (params.isLog) {
         return (
@@ -95,7 +102,7 @@ export default function Booking(params) {
                                             margin="normal"
                                             id="date-picker-dialog"
                                             label="Departure date"
-                                            format="MM/dd/yyyy"
+                                            format="dd/MM/yyyy"
                                             value={selectedDateDeparture}
                                             onChange={handleDateDepartureChange}
                                             KeyboardButtonProps={{
@@ -107,7 +114,7 @@ export default function Booking(params) {
                                             margin="normal"
                                             id="date-picker-dialog"
                                             label="Arrival date"
-                                            format="MM/dd/yyyy"
+                                            format="dd/MM/yyyy"
                                             value={selectedDateArrival}
                                             onChange={handleDateArrivalChange}
                                             KeyboardButtonProps={{
@@ -119,7 +126,7 @@ export default function Booking(params) {
                                 </MuiPickersUtilsProvider>
                             </FormControl>
                             <Button
-                                type="submit"
+                                onClick={handleSubmit}
                                 fullWidth
                                 variant="contained"
                                 color="primary"
