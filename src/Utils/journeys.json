@@ -1,0 +1,97 @@
+[
+  {
+    "id": 1,
+    "departureStation": "Lille",
+    "arrivalStation": "Paris",
+    "departureDate": "29/01/2019",
+    "backDate": "02/02/2019",
+    "price": 20
+  },
+  {
+    "id": 2,
+    "departureStation": "Lille",
+    "arrivalStation": "Lyon",
+    "departureDate": "29/01/2019",
+    "backDate": "02/02/2019",
+    "price": 20
+  },
+  {
+    "id": 3,
+    "departureStation": "Lille",
+    "arrivalStation": "Marseille",
+    "departureDate": "29/01/2019",
+    "backDate": "02/02/2019",
+    "price": 20
+  },
+  {
+    "id": 4,
+    "departureStation": "Lille",
+    "arrivalStation": "Bordeaux",
+    "departureDate": "29/01/2019",
+    "backDate": "02/02/2019",
+    "price": 20
+  },
+  {
+    "id": 5,
+    "departureStation": "Lille",
+    "arrivalStation": "Dax",
+    "departureDate": "29/01/2019",
+    "backDate": "02/02/2019",
+    "price": 20
+  },
+  {
+    "id": 6,
+    "departureStation": "Lille",
+    "arrivalStation": "Angers",
+    "departureDate": "29/01/2019",
+    "backDate": "02/02/2019",
+    "price": 20
+  },
+  {
+    "id": 7,
+    "departureStation": "Lille",
+    "arrivalStation": "Avignon",
+    "departureDate": "29/01/2019",
+    "backDate": "02/02/2019",
+    "price": 20
+  },
+  {
+    "id": 8,
+    "departureStation": "Lille",
+    "arrivalStation": "Douai",
+    "departureDate": "29/01/2019",
+    "price": 20
+  },
+  {
+    "id": 9,
+    "departureStation": "Lille",
+    "arrivalStation": "Nice",
+    "departureDate": "29/01/2019",
+    "backDate": "02/02/2019",
+    "price": 20
+  },
+  {
+    "id": 10,
+    "departureStation": "Lille",
+    "arrivalStation": "Orly",
+    "departureDate": "29/01/2019",
+    "backDate": "02/02/2019",
+    "price": 20
+  },
+  {
+    "id": 11,
+    "departureStation": "Lille",
+    "arrivalStation": "Paris",
+    "departureDate": "29/01/2019",
+    "backDate": "02/02/2019",
+    "price": 20
+  },
+  {
+    "id": 12,
+    "departureStation": "Lille",
+    "arrivalStation": "Paris",
+    "departureDate": "29/01/2019",
+    "backDate": "02/02/2019",
+    "price": 20
+  }
+]

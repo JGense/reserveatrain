@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import NeedLogin from "../Utils/NeedLogin";
 import Grid from "@material-ui/core/Grid";
@@ -6,6 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import FormControl from '@material-ui/core/FormControl';
 import {TextField} from "@material-ui/core";
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
@@ -13,14 +14,18 @@ import {
 } from '@material-ui/pickers';
 import Button from "@material-ui/core/Button";
 
+import journeys from '../Utils/journeys';
+import JourneysList from "../JourneysList/JourneysList";
+
 const useStyles = makeStyles(theme => ({
     root: {
-        flexGrow: 1,
+        flexGrow: 1
     },
     paper: {
         padding: theme.spacing(2),
         textAlign: 'left',
         color: theme.palette.text.secondary,
+        minHeight: "40vh"
     },
     bookingForm: {
         marginTop: theme.spacing(3)
@@ -38,15 +43,18 @@ const useStyles = makeStyles(theme => ({
 
 export default function Booking(params) {
     const classes = useStyles();
-    const [values, setValues] = React.useState({
+    const [values, setValues] = useState({
         departureStation: '',
         arrivalStation: ''
     });
 
-    const [selectedDateDeparture, setSelectedDateDeparture] = React.useState();
-    const [selectedDateArrival, setSelectedDateArrival] = React.useState();
+    const [selectedDateDeparture, setSelectedDateDeparture] = useState(new Date());
+    const [selectedDateArrival, setSelectedDateArrival] = useState(new Date());
+
+    const [journeysFind, setJourneysFind] =  useState([]);
 
     const handleDateDepartureChange = date => {
+        console.dir(date);
         setSelectedDateDeparture(date);
     };
 
@@ -58,10 +66,13 @@ export default function Booking(params) {
         setValues({ ...values, [prop]: event.target.value });
     };
 
-    const handleSubmit= event => {
+    const handleSubmitSearch= event => {
         let formatedDeparture = selectedDateDeparture.getDate()+'/'+selectedDateDeparture.getMonth()+1+'/'+selectedDateDeparture.getFullYear();
         let formatedArrival = selectedDateArrival.getDate()+'/'+selectedDateArrival.getMonth()+1+'/'+selectedDateArrival.getFullYear();
-        alert(values.arrivalStation+' '+values.departureStation+' '+formatedDeparture+' '+formatedArrival);
+        let journeysFind = journeys.filter(
+            function(journey){ return ((journey.departureStation == values.departureStation) && (journey.arrivalStation == values.arrivalStation) ) }
+        );
+        setJourneysFind(journeysFind);
         event.preventDefault();
     }
 
@@ -126,19 +137,21 @@ export default function Booking(params) {
                                 </MuiPickersUtilsProvider>
                             </FormControl>
                             <Button
-                                onClick={handleSubmit}
+                                onClick={handleSubmitSearch}
                                 fullWidth
                                 variant="contained"
                                 color="primary"
                                 className={classes.submitBtn}
                             >
-                                BOOK
+                                SEARCH
                             </Button>
                         </form>
                     </Paper>
                 </Grid>
                 <Grid item xs={4}>
-                    <Paper className={classes.paper}>xs=3</Paper>
+                    <Paper className={classes.paper}>
+                        <JourneysList journeysList={journeysFind} reduction={params.reduction}/>
+                    </Paper>
                 </Grid>
             </Grid>
         )

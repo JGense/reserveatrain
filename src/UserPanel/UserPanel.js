@@ -68,6 +68,15 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function UserPanel(params) {
+    let reductionDisabled = false;
+    console.log(typeof params.bookedJourneys);
+    if (typeof params.bookedJourneys === "object") {
+        params.bookedJourneys.length > 0 ? reductionDisabled = true : reductionDisabled = false;
+        console.log(reductionDisabled);
+    } else if (typeof params.bookedJourneys === "string") {
+        let temp = JSON.parse(params.bookedJourneys);
+        temp.length > 0 ? reductionDisabled = true : reductionDisabled = false;
+    }
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
@@ -107,7 +116,7 @@ export default function UserPanel(params) {
                             <Avatar className={classes.euroIcon}>
                                 <EuroSymbolIcon />
                             </Avatar>
-                            <TextField id="outlined-basic" label="Reduction code" variant="outlined" size="small" className={classes.reductionInput} />
+                            <TextField id="outlined-basic" label="Reduction code" variant="outlined" size="small" className={classes.reductionInput} disabled={reductionDisabled}/>
                             <h4>This is your discount code view. You can change it or add one if you don't have yet !</h4>
                         </div>
                     </TabPanel>
