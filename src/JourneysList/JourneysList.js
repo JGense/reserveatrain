@@ -50,7 +50,8 @@ export default function JourneysList(params) {
                 {params.journeysList.map((value, index) => {
                     let price;
                     console.log(params.reduction)
-                    params.reduction === 'true' ? price = value.price/2 : price = value.price;
+                    params.reduction !== false ? price = value.price/2 : price = value.price;
+                    value.price = price;
                     return (
                         <Paper item className={classes.paper}>
                             <Grid

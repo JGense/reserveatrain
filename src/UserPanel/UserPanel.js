@@ -108,6 +108,12 @@ export default function UserPanel(params) {
         }
     }
 
+    const handleDeleteReductionBtn = () => {
+        setReductionCode("");
+        params.setReduction(false);
+        localStorage.removeItem('reduction');
+    }
+
     if (params.isLog) {
         return (
             <Grid
@@ -144,7 +150,7 @@ export default function UserPanel(params) {
                                 <TextField value={reductionCode} id="outlined-basic" label="Reduction code" variant="outlined" size="small" className={classes.reductionInput} disabled={reductionDisabled} onChange={handleChangeInput}/>
                             </FormControl>
                             {reductionDisabled && <p className={classes.warningBooks}><small>You have booked journeys, so you cannot change your discount code</small></p>}
-                            {!reductionDisabled && <Button variant="contained" onClick={handleChangeReductionBtn}>Change</Button>}
+                            {!reductionDisabled && <div><Button variant="contained" onClick={handleChangeReductionBtn}>Change</Button><Button variant="contained" color={"secondary"} onClick={handleDeleteReductionBtn}>Delete</Button></div>}
                             <h4>This is your discount code view. You can change it or add one if you don't have yet !</h4>
                         </div>
                     </TabPanel>
