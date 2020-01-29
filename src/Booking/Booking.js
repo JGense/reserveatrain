@@ -6,7 +6,6 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import FormControl from '@material-ui/core/FormControl';
 import {TextField} from "@material-ui/core";
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,

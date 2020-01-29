@@ -38,42 +38,59 @@ const handleClickAddBook = (journey,bookedJourneys, setBookedJourneys) => {
 export default function JourneysList(params) {
     const classes = useStyles();
 
-    return (
-        <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="stretch"
-        >
-            {params.journeysList.map((value, index) => {
-                let price;
-                console.log(params.reduction)
-                params.reduction === 'true' ? price = value.price/2 : price = value.price;
-                return (
-                    <Paper item className={classes.paper}>
-                        <Grid
-                            container
-                            direction="row"
-                            justify="space-between"
-                            alignItems="center"
+
+    if (params.journeysList.length > 0) {
+        return (
+            <Grid
+                container
+                direction="column"
+                justify="center"
+                alignItems="stretch"
+            >
+                {params.journeysList.map((value, index) => {
+                    let price;
+                    console.log(params.reduction)
+                    params.reduction === 'true' ? price = value.price/2 : price = value.price;
+                    return (
+                        <Paper item className={classes.paper}>
+                            <Grid
+                                container
+                                direction="row"
+                                justify="space-between"
+                                alignItems="center"
                             >
-                            <Typography item component="p">
-                                {value.departureStation} -> {value.arrivalStation}
-                            </Typography>
-                            <Typography item component="p">
-                                {value.departureDate} -> {value.backDate}
-                            </Typography>
-                            <Typography item component="p">
-                                {price}
-                            </Typography>
-                            <Fab size="small" aria-label="add" className={classes.addBookBtn} onClick={() => handleClickAddBook(value, params.bookedJourneys, params.setBookedJourneys)}>
-                                <AddIcon style={{color: "white"}} />
-                            </Fab>
-                        </Grid>
-                    </Paper>
+                                <Typography item component="p">
+                                    {value.departureStation} -> {value.arrivalStation}
+                                </Typography>
+                                <Typography item component="p">
+                                    {value.departureDate} -> {value.backDate}
+                                </Typography>
+                                <Typography item component="p">
+                                    {price}
+                                </Typography>
+                                <Fab size="small" aria-label="add" className={classes.addBookBtn} onClick={() => handleClickAddBook(value, params.bookedJourneys, params.setBookedJourneys)}>
+                                    <AddIcon style={{color: "white"}} />
+                                </Fab>
+                            </Grid>
+                        </Paper>
                     )
-            })}
-        </Grid>
-    )
+                })}
+            </Grid>
+        )
+    } else {
+        return (
+            <Grid
+                container
+                direction="column"
+                justify="center"
+                alignItems="center"
+            >
+                <Typography item component="h3">
+                    No journeys! Start your search now from the left panel!
+                </Typography>
+            </Grid>
+        )
+    }
+
 }
 
