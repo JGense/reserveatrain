@@ -10,6 +10,7 @@ import Login from "./Login/Login";
 import UserPanel from "./UserPanel/UserPanel";
 
 import './App.css'
+import MyReservations from "./MyReservations/MyReservations";
 
 export default function App() {
     const [isLog, setIsLog] = useState(true);
@@ -25,12 +26,14 @@ export default function App() {
                     <Toolbar>
                         <Button><Link className={"menu-button"} to={"/"}>Home</Link></Button>
                         <Button><Link className={"menu-button"} to={"/booking"}>Booking</Link></Button>
+                        <Button><Link className={"menu-button"} to={"/myreservations"}>Reservations</Link></Button>
                         <Button><Link className={"menu-button"} to={"/account"}>Account</Link></Button>
                     </Toolbar>
                 </AppBar>
                 <Switch>
                     <Route exact path={"/"}><Login setIsLog={setIsLog} isLog={isLog}/></Route>
                     <Route exact path={"/booking"}><Booking isLog={isLog} reduction={reduction} bookedJourneys={bookedJourneys} setBookedJourneys={setBookedJourneys}/></Route>
+                    <Route exact path={"/myreservations"}><MyReservations isLog={isLog} bookedJourneys={bookedJourneys} setBookedJourneys={setBookedJourneys}/></Route>
                     <Route exact path={"/account"}><UserPanel isLog={isLog} reduction={reduction} setReduction={setReduction} bookedJourneys={bookedJourneys}/></Route>
                 </Switch>
             </Router>
