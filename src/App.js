@@ -12,12 +12,13 @@ import UserPanel from "./UserPanel/UserPanel";
 import './App.css'
 
 export default function App() {
-    localStorage.setItem('bookedJourney','[]');
     localStorage.setItem('reduction', 'true');
 
     const [isLog, setIsLog] = useState(true);
     const [reduction, setReduction] = useState(localStorage.getItem('reduction'));
     const [bookedJourneys, setBookedJourneys] = useState(localStorage.getItem('bookedJourneys') || []);
+
+    console.dir({bookedJourneys: bookedJourneys});
 
     return (
         <div className={"App"}>
@@ -31,7 +32,7 @@ export default function App() {
                 </AppBar>
                 <Switch>
                     <Route exact path={"/"}><Login setIsLog={setIsLog} isLog={isLog}/></Route>
-                    <Route exact path={"/booking"}><Booking isLog={isLog} reduction={reduction}/></Route>
+                    <Route exact path={"/booking"}><Booking isLog={isLog} reduction={reduction} bookedJourneys={bookedJourneys} setBookedJourneys={setBookedJourneys}/></Route>
                     <Route exact path={"/account"}><UserPanel isLog={isLog} setReduction={setReduction} bookedJourneys={bookedJourneys}/></Route>
                 </Switch>
             </Router>

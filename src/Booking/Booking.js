@@ -150,7 +150,7 @@ export default function Booking(params) {
                 </Grid>
                 <Grid item xs={4}>
                     <Paper className={classes.paper}>
-                        <JourneysList journeysList={journeysFind} reduction={params.reduction}/>
+                        <JourneysList journeysList={journeysFind} reduction={params.reduction} bookedJourneys={params.bookedJourneys} setBookedJourneys={params.setBookedJourneys}/>
                     </Paper>
                 </Grid>
             </Grid>

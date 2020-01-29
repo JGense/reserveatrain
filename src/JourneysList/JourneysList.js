@@ -3,6 +3,8 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -11,8 +13,27 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.text.secondary,
         backgroundColor: 'whitesmoke',
         marginTop: theme.spacing(2)
+    },
+    addBookBtn: {
+        backgroundColor: "green"
     }
 }));
+
+const handleClickAddBook = (journey,bookedJourneys, setBookedJourneys) => {
+  console.dir(journey);
+    console.log(typeof bookedJourneys);
+    if (typeof bookedJourneys === "object") {
+        console.dir(bookedJourneys);
+        bookedJourneys.push(journey);
+        localStorage.setItem('bookedJourneys', JSON.stringify(bookedJourneys));
+        setBookedJourneys(bookedJourneys);
+    } else if (typeof bookedJourneys === "string") {
+        let temp = JSON.parse(bookedJourneys);
+        temp.push(journey);
+        localStorage.setItem('bookedJourneys', JSON.stringify(temp));
+        setBookedJourneys(temp);
+    }
+};
 
 export default function JourneysList(params) {
     const classes = useStyles();
@@ -45,6 +66,9 @@ export default function JourneysList(params) {
                             <Typography item component="p">
                                 {price}
                             </Typography>
+                            <Fab size="small" aria-label="add" className={classes.addBookBtn} onClick={() => handleClickAddBook(value, params.bookedJourneys, params.setBookedJourneys)}>
+                                <AddIcon style={{color: "white"}} />
+                            </Fab>
                         </Grid>
                     </Paper>
                     )
