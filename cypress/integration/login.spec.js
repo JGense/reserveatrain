@@ -3,7 +3,7 @@ context('Login into app', () => {
         cy.visit('/');
     });
 
-    it('should be true', () => {
+    it('should be Welcome', () => {
         cy.get('[data-testid=input-email]')
             .type('eve.holt@reqres.in');
 

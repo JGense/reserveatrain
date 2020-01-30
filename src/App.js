@@ -16,8 +16,6 @@ export default function App() {
     const [isLog, setIsLog] = useState(localStorage.getItem('isLog') || false);
     const [reduction, setReduction] = useState(localStorage.getItem('reduction') || false);
     const [bookedJourneys, setBookedJourneys] = useState(localStorage.getItem('bookedJourneys') || []);
-    const [redirection, setRedirection] = useState(false);
-    // TODO logout button and function
 
     const logout = () => {
         console.log('disconnect');
