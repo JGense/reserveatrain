@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,17 +16,25 @@ export default function App() {
     const [isLog, setIsLog] = useState(localStorage.getItem('isLog') || false);
     const [reduction, setReduction] = useState(localStorage.getItem('reduction') || false);
     const [bookedJourneys, setBookedJourneys] = useState(localStorage.getItem('bookedJourneys') || []);
+    const [redirection, setRedirection] = useState(false);
     // TODO logout button and function
+
+    const logout = () => {
+        console.log('disconnect');
+        localStorage.removeItem('isLog');
+        setIsLog(false);
+    }
 
     return (
         <div className={"App"}>
             <Router>
                 <AppBar position={"static"}>
                     <Toolbar>
-                        <Button><Link className={"menu-button"} to={"/"}>Home</Link></Button>
+                        {!isLog && <Button><Link className={"menu-button"} to={"/"}>Home</Link></Button>}
                         <Button><Link className={"menu-button"} to={"/booking"}>Booking</Link></Button>
                         <Button><Link className={"menu-button"} to={"/myreservations"}>Reservations</Link></Button>
                         <Button><Link className={"menu-button"} to={"/account"}>Account</Link></Button>
+                        {isLog && <Button style={{color: "white", float:"right"}} onClick={logout}>Logout</Button>}
                     </Toolbar>
                 </AppBar>
                 <Switch>
