@@ -13,11 +13,10 @@ import './App.css'
 import MyReservations from "./MyReservations/MyReservations";
 
 export default function App() {
-    const [isLog, setIsLog] = useState(true);
+    const [isLog, setIsLog] = useState(localStorage.getItem('isLog') || false);
     const [reduction, setReduction] = useState(localStorage.getItem('reduction') || false);
     const [bookedJourneys, setBookedJourneys] = useState(localStorage.getItem('bookedJourneys') || []);
-
-    console.dir({bookedJourneys: bookedJourneys});
+    // TODO logout button and function
 
     return (
         <div className={"App"}>

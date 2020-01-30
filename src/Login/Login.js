@@ -87,6 +87,7 @@ export default function Login(params) {
         }
 
         if (isLog) {
+            // TODO setLocalStorage isLog
             params.setIsLog(true);
         }
     }

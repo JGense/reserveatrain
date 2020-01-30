@@ -12,9 +12,12 @@ import {
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 import Button from "@material-ui/core/Button";
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import journeys from '../Utils/journeys';
 import JourneysList from "../JourneysList/JourneysList";
+
+import {searchSncf} from "../Utils/searchStations";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -24,7 +27,7 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2),
         textAlign: 'left',
         color: theme.palette.text.secondary,
-        minHeight: "40vh"
+        minHeight: "42vh"
     },
     bookingForm: {
         marginTop: theme.spacing(3)
@@ -49,6 +52,8 @@ export default function Booking(params) {
 
     const [selectedDateDeparture, setSelectedDateDeparture] = useState(new Date());
     const [selectedDateArrival, setSelectedDateArrival] = useState(new Date());
+    const [autoCompleteDeparture, setAutoCompleteDeparture] = useState([]);
+    const [autoCompleteArrival, setAutoCompleteArrival] = useState([]);
 
     const [journeysFind, setJourneysFind] =  useState([]);
 
@@ -62,7 +67,38 @@ export default function Booking(params) {
     };
 
     const handleChangeInput = prop => event => {
+        console.log(event.target.value);
         setValues({ ...values, [prop]: event.target.value });
+    };
+
+    const handleChangeInputDepartureSub = (event , value) => {
+        console.dir({depart: value});
+        if (value === null) {
+            setValues({...values, 'departureStation': "value.libelle"});
+        } else {
+            setValues({...values, 'departureStation': value.libelle});
+        }
+    };
+
+    const handleChangeInputArrivalSub = (event , value) => {
+        console.dir({arrivee: value});
+        if (value === null) {
+            setValues({...values, 'arrivalStation': ""});
+        } else {
+            setValues({...values, 'arrivalStation': value.libelle});
+        }
+    };
+
+    const handleChangeInputDeparture = async event => {
+        let gares = await searchSncf(event.target.value) || [];
+        setAutoCompleteDeparture(gares);
+        //console.dir({autoCompleteDeparture: autoCompleteDeparture});
+    };
+
+    const handleChangeInputArrival = async event => {
+        let gares = await searchSncf(event.target.value) || [];
+        setAutoCompleteArrival(gares);
+        //console.dir({autoCompleteDeparture: autoCompleteDeparture});
     };
 
     const handleSubmitSearch= event => {
@@ -92,19 +128,25 @@ export default function Booking(params) {
                         </Typography>
                         <form className={classes.bookingForm}>
                             <FormControl fullWidth>
-                                <TextField value={values.departureStation}
-                                           onChange={handleChangeInput('departureStation')}
-                                           id="departureStationInput"
-                                           label="Departure station"
-                                           variant="outlined"
-                                           size="small"
+                                <Autocomplete
+                                    onChange={handleChangeInputDepartureSub}
+                                    id="combo-box-departure"
+                                    options={autoCompleteDeparture}
+                                    getOptionLabel={option => option.libelle}
+                                    style={{ width: "100%" }}
+                                    renderInput={params => (
+                                        <TextField {...params} label="Departure station" variant="outlined" fullWidth onChange={handleChangeInputDeparture} />
+                                    )}
                                 />
-                                <TextField value={values.arrivalStation} className={classes.arrivalStation}
-                                           onChange={handleChangeInput('arrivalStation')}
-                                           id="arrivalStationInput"
-                                           label="Arrival station"
-                                           variant="outlined"
-                                           size="small"
+                                <Autocomplete
+                                    onChange={handleChangeInputArrivalSub}
+                                    id="combo-box-arrival"
+                                    options={autoCompleteArrival}
+                                    getOptionLabel={option => option.libelle}
+                                    style={{ width: "100%", marginTop: "10px" }}
+                                    renderInput={params => (
+                                        <TextField {...params} label="Arrival station" variant="outlined" fullWidth onChange={handleChangeInputArrival} />
+                                    )}
                                 />
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <Grid container justify="space-around" className={classes.dateInputs}>

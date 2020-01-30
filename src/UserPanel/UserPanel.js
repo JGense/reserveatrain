@@ -75,10 +75,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function UserPanel(params) {
     let reductionDisabled = false;
-    //console.log(typeof params.bookedJourneys);
+
     if (typeof params.bookedJourneys === "object") {
         params.bookedJourneys.length > 0 ? reductionDisabled = true : reductionDisabled = false;
-        //console.log(reductionDisabled);
     } else if (typeof params.bookedJourneys === "string") {
         let temp = JSON.parse(params.bookedJourneys);
         temp.length > 0 ? reductionDisabled = true : reductionDisabled = false;
