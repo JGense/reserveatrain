@@ -87,6 +87,7 @@ export default function Login(params) {
         }
 
         if (isLog) {
+            localStorage.setItem('isLog', 'true');
             params.setIsLog(true);
         }
     }
@@ -118,6 +119,7 @@ export default function Login(params) {
                                 margin="normal"
                                 required
                                 fullWidth
+                                data-testid="input-email"
                                 id="email"
                                 label="Email Address"
                                 name="email"
@@ -132,6 +134,7 @@ export default function Login(params) {
                                 name="password"
                                 label="Password"
                                 type="password"
+                                data-testid="input-password"
                                 id="password"
                                 autoComplete="current-password"
                                 onChange={e => setPassword(e.target.value)}
@@ -146,6 +149,7 @@ export default function Login(params) {
                                 variant="contained"
                                 color="primary"
                                 className={classes.submit}
+                                data-testid="submit-login"
                             >
                                 Sign In
                             </Button>
@@ -188,7 +192,7 @@ export default function Login(params) {
                         <Avatar className={classes.avatar}>
                             <EmojiEmotionsOutlinedIcon />
                         </Avatar>
-                        <Typography component="h1" variant="h5">
+                        <Typography data-testid="test-title" component="h1" variant="h5">
                             Welcome
                         </Typography>
                         <h3>You are already logged in ! Go booking now !</h3>

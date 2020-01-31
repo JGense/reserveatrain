@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import NeedLogin from "../Utils/NeedLogin";
 import Grid from "@material-ui/core/Grid";
@@ -12,15 +12,22 @@ import {
     KeyboardDatePicker,
 } from '@material-ui/pickers';
 import Button from "@material-ui/core/Button";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
+import journeys from '../Utils/journeys';
+import JourneysList from "../JourneysList/JourneysList";
+
+import {searchSncf} from "../Utils/searchStations";
 
 const useStyles = makeStyles(theme => ({
     root: {
-        flexGrow: 1,
+        flexGrow: 1
     },
     paper: {
         padding: theme.spacing(2),
         textAlign: 'left',
         color: theme.palette.text.secondary,
+        minHeight: "42vh"
     },
     bookingForm: {
         marginTop: theme.spacing(3)
@@ -38,15 +45,20 @@ const useStyles = makeStyles(theme => ({
 
 export default function Booking(params) {
     const classes = useStyles();
-    const [values, setValues] = React.useState({
+    const [values, setValues] = useState({
         departureStation: '',
         arrivalStation: ''
     });
 
-    const [selectedDateDeparture, setSelectedDateDeparture] = React.useState(Date.now);
-    const [selectedDateArrival, setSelectedDateArrival] = React.useState(Date.now());
+    const [selectedDateDeparture, setSelectedDateDeparture] = useState(new Date());
+    const [selectedDateArrival, setSelectedDateArrival] = useState(new Date());
+    const [autoCompleteDeparture, setAutoCompleteDeparture] = useState([]);
+    const [autoCompleteArrival, setAutoCompleteArrival] = useState([]);
+
+    const [journeysFind, setJourneysFind] =  useState([]);
 
     const handleDateDepartureChange = date => {
+        console.dir(date);
         setSelectedDateDeparture(date);
     };
 
@@ -55,8 +67,49 @@ export default function Booking(params) {
     };
 
     const handleChangeInput = prop => event => {
+        console.log(event.target.value);
         setValues({ ...values, [prop]: event.target.value });
     };
+
+    const handleChangeInputDepartureSub = (event , value) => {
+        console.dir({depart: value});
+        if (value === null) {
+            setValues({...values, 'departureStation': "value.libelle"});
+        } else {
+            setValues({...values, 'departureStation': value.libelle});
+        }
+    };
+
+    const handleChangeInputArrivalSub = (event , value) => {
+        console.dir({arrivee: value});
+        if (value === null) {
+            setValues({...values, 'arrivalStation': ""});
+        } else {
+            setValues({...values, 'arrivalStation': value.libelle});
+        }
+    };
+
+    const handleChangeInputDeparture = async event => {
+        let gares = await searchSncf(event.target.value) || [];
+        setAutoCompleteDeparture(gares);
+        //console.dir({autoCompleteDeparture: autoCompleteDeparture});
+    };
+
+    const handleChangeInputArrival = async event => {
+        let gares = await searchSncf(event.target.value) || [];
+        setAutoCompleteArrival(gares);
+        //console.dir({autoCompleteDeparture: autoCompleteDeparture});
+    };
+
+    const handleSubmitSearch= event => {
+        let formatedDeparture = selectedDateDeparture.getDate()+'/'+selectedDateDeparture.getMonth()+1+'/'+selectedDateDeparture.getFullYear();
+        let formatedArrival = selectedDateArrival.getDate()+'/'+selectedDateArrival.getMonth()+1+'/'+selectedDateArrival.getFullYear();
+        let journeysFind = journeys.filter(
+            function(journey){ return ((journey.departureStation == values.departureStation) && (journey.arrivalStation == values.arrivalStation) ) }
+        );
+        setJourneysFind(journeysFind);
+        event.preventDefault();
+    }
 
     if (params.isLog) {
         return (
@@ -75,19 +128,25 @@ export default function Booking(params) {
                         </Typography>
                         <form className={classes.bookingForm}>
                             <FormControl fullWidth>
-                                <TextField value={values.departureStation}
-                                           onChange={handleChangeInput('departureStation')}
-                                           id="departureStationInput"
-                                           label="Departure station"
-                                           variant="outlined"
-                                           size="small"
+                                <Autocomplete
+                                    onChange={handleChangeInputDepartureSub}
+                                    id="combo-box-departure"
+                                    options={autoCompleteDeparture}
+                                    getOptionLabel={option => option.libelle}
+                                    style={{ width: "100%" }}
+                                    renderInput={params => (
+                                        <TextField {...params} label="Departure station" variant="outlined" fullWidth onChange={handleChangeInputDeparture} />
+                                    )}
                                 />
-                                <TextField value={values.arrivalStation} className={classes.arrivalStation}
-                                           onChange={handleChangeInput('arrivalStation')}
-                                           id="arrivalStationInput"
-                                           label="Arrival station"
-                                           variant="outlined"
-                                           size="small"
+                                <Autocomplete
+                                    onChange={handleChangeInputArrivalSub}
+                                    id="combo-box-arrival"
+                                    options={autoCompleteArrival}
+                                    getOptionLabel={option => option.libelle}
+                                    style={{ width: "100%", marginTop: "10px" }}
+                                    renderInput={params => (
+                                        <TextField {...params} label="Arrival station" variant="outlined" fullWidth onChange={handleChangeInputArrival} />
+                                    )}
                                 />
                                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                     <Grid container justify="space-around" className={classes.dateInputs}>
@@ -95,7 +154,7 @@ export default function Booking(params) {
                                             margin="normal"
                                             id="date-picker-dialog"
                                             label="Departure date"
-                                            format="MM/dd/yyyy"
+                                            format="dd/MM/yyyy"
                                             value={selectedDateDeparture}
                                             onChange={handleDateDepartureChange}
                                             KeyboardButtonProps={{
@@ -107,7 +166,7 @@ export default function Booking(params) {
                                             margin="normal"
                                             id="date-picker-dialog"
                                             label="Arrival date"
-                                            format="MM/dd/yyyy"
+                                            format="dd/MM/yyyy"
                                             value={selectedDateArrival}
                                             onChange={handleDateArrivalChange}
                                             KeyboardButtonProps={{
@@ -119,19 +178,21 @@ export default function Booking(params) {
                                 </MuiPickersUtilsProvider>
                             </FormControl>
                             <Button
-                                type="submit"
+                                onClick={handleSubmitSearch}
                                 fullWidth
                                 variant="contained"
                                 color="primary"
                                 className={classes.submitBtn}
                             >
-                                BOOK
+                                SEARCH
                             </Button>
                         </form>
                     </Paper>
                 </Grid>
                 <Grid item xs={4}>
-                    <Paper className={classes.paper}>xs=3</Paper>
+                    <Paper className={classes.paper}>
+                        <JourneysList journeysList={journeysFind} reduction={params.reduction} bookedJourneys={params.bookedJourneys} setBookedJourneys={params.setBookedJourneys}/>
+                    </Paper>
                 </Grid>
             </Grid>
         )

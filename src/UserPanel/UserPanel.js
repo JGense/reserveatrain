@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -11,6 +11,8 @@ import Box from '@material-ui/core/Box';
 import Avatar from "@material-ui/core/Avatar";
 import EuroSymbolIcon from '@material-ui/icons/EuroSymbol';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -64,16 +66,52 @@ const useStyles = makeStyles(theme => ({
     reductionInput: {
         margin: theme.spacing(1),
         lineHeight: 1.334
+    },
+    warningBooks: {
+        color: "orange",
+        marginTop: "-8px"
     }
 }));
 
 export default function UserPanel(params) {
+    let reductionDisabled = false;
+
+    if (typeof params.bookedJourneys === "object") {
+        params.bookedJourneys.length > 0 ? reductionDisabled = true : reductionDisabled = false;
+    } else if (typeof params.bookedJourneys === "string") {
+        let temp = JSON.parse(params.bookedJourneys);
+        temp.length > 0 ? reductionDisabled = true : reductionDisabled = false;
+    }
+    let coupon = params.reduction;
+    if (!coupon) {
+        coupon = "";
+    }
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
+    const [reductionCode, setReductionCode] = useState(coupon)
 
     const handleChangeTabs = (event, newValue) => {
         setValue(newValue);
     };
+
+    const handleChangeInput = event => {
+        setReductionCode(event.target.value);
+    }
+
+    const handleChangeReductionBtn = () => {
+        if (reductionCode === "") {
+            setReductionCode(coupon);
+        } else {
+            params.setReduction(reductionCode);
+            localStorage.setItem('reduction', reductionCode);
+        }
+    }
+
+    const handleDeleteReductionBtn = () => {
+        setReductionCode("");
+        params.setReduction(false);
+        localStorage.removeItem('reduction');
+    }
 
     if (params.isLog) {
         return (
@@ -103,11 +141,15 @@ export default function UserPanel(params) {
                             </div>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <div className={classes.paper}>
+                        <div className={classes.paper} style={{marginBottom: "0px"}}>
                             <Avatar className={classes.euroIcon}>
                                 <EuroSymbolIcon />
                             </Avatar>
-                            <TextField id="outlined-basic" label="Reduction code" variant="outlined" size="small" className={classes.reductionInput} />
+                            <FormControl>
+                                <TextField value={reductionCode} id="outlined-basic" label="Reduction code" variant="outlined" size="small" className={classes.reductionInput} disabled={reductionDisabled} onChange={handleChangeInput}/>
+                            </FormControl>
+                            {reductionDisabled && <p className={classes.warningBooks}><small>You have booked journeys, so you cannot change your discount code</small></p>}
+                            {!reductionDisabled && <div><Button variant="contained" onClick={handleChangeReductionBtn}>Change</Button><Button variant="contained" color={"secondary"} onClick={handleDeleteReductionBtn}>Delete</Button></div>}
                             <h4>This is your discount code view. You can change it or add one if you don't have yet !</h4>
                         </div>
                     </TabPanel>
